@@ -3,7 +3,9 @@ import re
 import werkzeug.urls
 
 from odoo import api, fields, models, _
-from odoo.addons.base_iban.models.res_partner_bank import normalize_iban, pretty_iban, validate_iban
+from odoo.addons.base_iban.models.res_partner_bank import (
+    normalize_iban, pretty_iban, validate_iban
+)
 from odoo.addons.base.models.res_bank import sanitize_account_number
 from odoo.exceptions import ValidationError
 
@@ -27,9 +29,9 @@ class ResPartnerBank(models.Model):
         iid_end_index = 8
         iid = iban[iid_start_index : iid_end_index + 1]
         return (
-           re.match('\d+', iid)
-           # Those values for iid are reserved for QR-IBANs only
-           and 30000 <= int(iid) <= 31999
+            re.match('\d+', iid)
+            # Those values for iid are reserved for QR-IBANs only
+            and 30000 <= int(iid) <= 31999
         )
 
     def _validate_qr_iban(self, qr_iban):
@@ -63,6 +65,8 @@ class ResPartnerBank(models.Model):
     def _is_qr_iban(self):
         return super()._is_qr_iban() or self.l10n_ch_qr_iban
 
+    # fmt: off
+    # Overwrite of official odoo code
     @api.model
     def build_swiss_code_url(
             self, amount, currency_name, not_used_anymore_1, debtor_partner,
@@ -128,3 +132,4 @@ class ResPartnerBank(models.Model):
         return '/report/barcode/?type=%s&value=%s&width=%s&height=%s&humanreadable=1' % (
             'QR_quiet', werkzeug.urls.url_quote_plus('\n'.join(qr_code_vals)), 256, 256
         )
+    # fmt: on

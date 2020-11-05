@@ -2,8 +2,9 @@
 {
     'name': "Switzerland - QR-IBAN",
     'version': '12.0.0.1.0',
-    'author': 'Odoo S.A',
+    'author': ['Odoo S.A', 'Camptocamp', 'Odoo Community Association (OCA)'],
     'category': 'Localization',
+    'license': 'LGPL-3',
     'depends': ['l10n_ch'],
     'data': [
         'views/res_bank_views.xml',
